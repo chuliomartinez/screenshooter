@@ -1,0 +1,22 @@
+
+.jsPaintOuter {
+  overflow: hidden;
+  /* width: 100%; */
+  height:calc(100vh - 90px);
+  margin: 5px;
+  background-color: darkcyan;
+  border:1px solid black;
+  display: grid;
+}
+.jsPaintCanvas {
+  overflow: scroll;
+ grid-area: 1/1/2/2;
+}
+.jsInnerCanvas {
+  grid-area: 1/1/2/2;
+  aspect-ratio: 1/1;
+}
+.jsPaintTitle {
+  display: block;
+  padding:2px;
+}
