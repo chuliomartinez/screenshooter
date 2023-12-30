@@ -248,7 +248,7 @@ const blurSelection = (state: IJSImageState) => {
 
 	canvas.width = dw;
 	canvas.height = dh;
-	const image = state.imageBits;
+	const image = getDrawContext(state)!;
 	const ctx = canvas.getContext("2d")!;
 	//ctx.filter = "blur(10px)";
 	//ctx.mozImageSmoothingEnabled = false; 
@@ -633,14 +633,16 @@ export const ImagePage = (props: {}) => {
 			<span className="jsPaintTitle">Screenshooter</span>
 			<button onClick={open}>Open</button>
 			<button onClick={save}>Save</button>
+			<span>Zoom:</span>
 			<button onClick={e => setZoom(true)}>+</button>
 			<span>{state.zoom.toFixed(2)||"0"}</span>
-			<button onClick={e=>setZoom(false)}>-</button>
+			<button onClick={e => setZoom(false)}>-</button>
+			<span>Rotate:</span>
 			<button onClick={e => setRotate(true)}>Left</button>
 			<span>{state.rotation||"0"}</span>
 			<button onClick={e => setRotate(false)}>Right</button>
-			<input type="color" onChange={onForeColorChanged} />
 			<span>Line:</span>
+			<input type="color" onChange={onForeColorChanged} />
 			<select value={state.lineWidth} style={{width: "fit-content"}} onChange={setLineWidth}>{lineWidths.map(x => <option key={"k" + x} value={x}>{x + "px"}</option>)}</select>
 			<span>Blur:</span>
 			<select value={state.blurRatio} style={{ width: "fit-content" }} onChange={setBlurRatio}>{[2,3,4,5,6,7,8,9,10].map(x => <option key={"k" + x} value={x}>{x + "x"}</option>)}</select>
