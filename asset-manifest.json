@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/screenshooter/static/css/main.d87d5465.css",
-    "main.js": "/screenshooter/static/js/main.9c0c9d47.js",
+    "main.js": "/screenshooter/static/js/main.27a43482.js",
     "index.html": "/screenshooter/index.html",
     "main.d87d5465.css.map": "/screenshooter/static/css/main.d87d5465.css.map",
-    "main.9c0c9d47.js.map": "/screenshooter/static/js/main.9c0c9d47.js.map"
+    "main.27a43482.js.map": "/screenshooter/static/js/main.27a43482.js.map"
   },
   "entrypoints": [
     "static/css/main.d87d5465.css",
-    "static/js/main.9c0c9d47.js"
+    "static/js/main.27a43482.js"
   ]
 }
