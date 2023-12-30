@@ -1,6 +1,6 @@
 # Screenshooter
 
-Screenshooter is an application for touching-up screenshots before publishing.
+[Screenshooter](https://chuliomartinez.github.io/screenshooter/) is an application for touching-up screenshots before publishing.
 
 ## What is it not
 1. It is not meant to replace image editors.
@@ -24,7 +24,7 @@ Touch-up tools:
 3. Output is png or jpg, quality is not selectable
 
 ## Can I...
-1. **Use it** - sure just go here, if it works for you I'm happy.
+1. **Use it** - sure just go [here](https://chuliomartinez.github.io/screenshooter/), if it works for you I'm happy.
 2. **Fork it** - sure just hit them github buttons
 3. **slice** and dice it - sure, take what ever parts make sense
 4. send you a **pull request** - sure, thanks!
