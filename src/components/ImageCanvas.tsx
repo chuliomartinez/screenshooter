@@ -612,7 +612,7 @@ export const ImagePage = (props: {}) => {
 				x: 0,
 				y: 0,
 				rotation: 0,
-				zoom: 1,
+				zoom: window.innerWidth / imgElement.naturalWidth,
 				width: imgElement.naturalWidth,
 				height: imgElement.naturalHeight,
 				showGrid: false,
@@ -651,6 +651,12 @@ export const ImagePage = (props: {}) => {
 				state.zoom -= 0.10; 
 		}
 		setState({ ...state });
+	}
+	const setZoom100 = () => {
+		setState({ ...state, zoom: 2 });
+	}
+	const setZoomFit = () => {
+		setState({ ...state, zoom: window.innerWidth / state.width });
 	}
 
 	const setRotate = (left: boolean) => {
@@ -720,6 +726,8 @@ export const ImagePage = (props: {}) => {
 			<button onClick={open}>Open</button>
 			<button onClick={save}>Save</button>
 			<span>Zoom:</span>
+			<button onClick={e => setZoom100()}>[1]</button>
+			<button onClick={e => setZoomFit()}>[X]</button>
 			<button onClick={e => setZoom(true)}>+</button>
 			<span>{state.zoom.toFixed(2)||"0"}</span>
 			<button onClick={e => setZoom(false)}>-</button>
