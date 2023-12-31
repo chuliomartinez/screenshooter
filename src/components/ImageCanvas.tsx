@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { download, downloadFileUrl } from "../services/download";
+import { shuffle } from "../services/shuffle";
 
 const testData = "data:image/png;base64,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";
 
@@ -206,6 +207,7 @@ const drawActionsInternal = (actions: IAction[]|undefined, ctx: CanvasRenderingC
 					if (!l || !l.length || !act.bits)
 						continue;
 					ctx.drawImage(act.bits, l[0].x, l[0].y, l[1].x - l[0].x, l[1].y - l[0].y);
+					//ctx.drawImage(act.bits, l[0].x, l[0].y);
 					break;
 			}
 		}
@@ -226,6 +228,92 @@ const undoLastCommitedOperation = (state: IJSImageState) => {
 	}
 }
 
+const imageOperation = (dst: CanvasRenderingContext2D, src: CanvasRenderingContext2D,
+	x0: number, y0: number, w: number, h: number, box: number, operation: "pixelate"|"randomize") => {
+	
+	const srcBits = src.getImageData(x0, y0, w, h).data;
+	const srcStride = w * 4;
+	const dstData = dst.createImageData(w, h);//dst.getImageData(0, 0, w, h);
+	const dstBits = dstData.data;
+	const dstStride = w * 4;
+
+	const getPix = (x: number, y: number, i: number) => {
+		
+		let color = srcBits[y * srcStride + x * 4 + i] || 0;
+		console.log("get[" + x + ":" + y + "]=" + color);
+		return color;
+	}
+	const setPix = (x: number, y: number, i: number, color: number) => {
+		dstBits[y * dstStride + x * 4 + i] = color;
+		console.log("set[" + x + ":" + y + "]=" + color);
+	}
+	
+	if (operation === "pixelate") {
+		for (let y = 0; y < h; y += box) {
+			for (let x = 0; x < w; x += box) {
+				//rgba
+				for (let i = 0; i < 3; i++) {
+
+					let sx = Math.min(x, w - box - 1);
+					let sy = Math.min(y, h - box - 1);
+
+					// fixme: replace by matrix
+					let acc = 0;
+					for (let u = 0; u < box * box; u++) {
+						acc += getPix(sx + u % box, sy + ((u / box) | 0), i);
+					}
+					setPix(x, y, i, acc / (box * box));
+				}
+				dstBits[y * dstStride + x * 4 + 3] = 0xff;
+			}
+		}
+		const clm = (f: number) => ((f / box) | 0) * box;
+		for (let y = 0; y < h; y++) {
+			for (let x = 0; x < w; x++) {
+				for (let i = 0; i < 4; i++) {
+					let s = dstBits[clm(y) * dstStride + clm(x) * 4 + i]
+					dstBits[y * dstStride + x * 4 + i] = s;
+				}
+			}
+		}
+	} else if (operation === "randomize") {
+		for (let y = 0; y < h; y += box) {
+			for (let x = 0; x < w; x += box) {
+
+				let shuf = shuffle(Array(box * box).fill(0).map((_, i) => i));
+				let sx = Math.min(x, w - box);
+				let sy = Math.min(y, h - box);
+
+				for (let v = 0; v < box * box; v++) {
+					let u = shuf[v];
+					for (let i = 0; i < 4; i++) {
+						let pix = getPix(sx + u % box, sy + ((u / box) | 0), i);
+						setPix(x + v % box, y + ((v / box) | 0), i, pix);
+					}
+				}
+			}
+		}
+	} else if (operation === "smudge") {
+		// for (let y = 0; y < h; y += box) {
+		// 	for (let x = 0; x < w; x += box) {
+
+		// 		let shuf = shuffle(Array(box * box).fill(0).map((_, i) => i));
+		// 		let sx = Math.min(x, w - box);
+		// 		let sy = Math.min(y, h - box);
+
+		// 		for (let v = 0; v < box * box; v++) {
+		// 			let u = shuf[v];
+		// 			for (let i = 0; i < 4; i++) {
+		// 				let pix = getPix(sx + u % box, sy + ((u / box) | 0), i);
+		// 				setPix(x + v % box, y + ((v / box) | 0), i, pix);
+		// 			}
+		// 		}
+		// 	}
+		// }
+	}
+	dst.putImageData(dstData, 0, 0);
+}
+
 const blurSelection = (state: IJSImageState) => {
 	const sel = state.selection;
 	if (!sel) return;
@@ -236,24 +324,22 @@ const blurSelection = (state: IJSImageState) => {
 	let y1 = Math.max(sel[0].y, sel[1].y);
 
 	const canvas = document.createElement('canvas');
-	let factor = 1 / (state.blurRatio || 5);
 	
-	let sw = (x1 - x0);
-	let sh = (y1 - y0);
 	x1 += 1;
 	y1 += 1;
-	
-	let dw = Math.ceil(sw * factor);
-	let dh = Math.ceil(sh * factor);
 
-	canvas.width = dw;
-	canvas.height = dh;
+	canvas.width = x1 - x0;
+	canvas.height = y1 - y0;
 	const image = getDrawContext(state)!;
 	const ctx = canvas.getContext("2d")!;
-	//ctx.filter = "blur(10px)";
-	//ctx.mozImageSmoothingEnabled = false; 
-	ctx.imageSmoothingEnabled = false; 
-	ctx.drawImage(image, x0, y0, sw, sh, 0, 0, dw, dh);
+
+	const scaleWidth = canvas.width / state.blurRatio;
+	const scaleHeight = canvas.height / state.blurRatio;
+	ctx.imageSmoothingEnabled = true;
+	ctx.drawImage(image, x0, y0, canvas.width, canvas.height, 0, 0, scaleWidth, scaleHeight);
+	ctx.imageSmoothingEnabled = true;
+	ctx.drawImage(canvas, 0, 0, scaleWidth, scaleHeight, 0, 0, canvas.width, canvas.height);
+	//imageOperation(ctx, image.getContext("2d")!, x0, y0, x1 - x0, y1 - y0, state.blurRatio, "randomize");
 
 	state.actions = (state.actions || []).concat({ "type": "image", "lines": [{ x: x0, y: y0 }, { x: x1, y: y1 }], "color": "", bits: canvas });
 	drawActions(state);
@@ -645,7 +731,7 @@ export const ImagePage = (props: {}) => {
 			<input type="color" onChange={onForeColorChanged} />
 			<select value={state.lineWidth} style={{width: "fit-content"}} onChange={setLineWidth}>{lineWidths.map(x => <option key={"k" + x} value={x}>{x + "px"}</option>)}</select>
 			<span>Blur:</span>
-			<select value={state.blurRatio} style={{ width: "fit-content" }} onChange={setBlurRatio}>{[2,3,4,5,6,7,8,9,10].map(x => <option key={"k" + x} value={x}>{x + "x"}</option>)}</select>
+			<select value={state.blurRatio} style={{ width: "fit-content" }} onChange={setBlurRatio}>{[2,3,4,5,6,7,8,9,10,12,15,20,40,80].map(x => <option key={"k" + x} value={x}>{x + "x"}</option>)}</select>
 			<br />
 			{tools.map(x => {
 				const currentTool = state.tool || "line";
